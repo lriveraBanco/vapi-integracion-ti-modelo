@@ -34,6 +34,9 @@ parser.add_argument('-lt', '--log_type',
 parser.add_argument('-pl', '--porcentaje_limit',
                     type = int, help = 'Porcentaje para el LIMIT en los logs de compilación',
                     default = 100)
+parser.add_argument('-f', '--config_file',
+                    type = str, help = 'Archivo de configuracion',
+                    default = 100)
 
 
 args = parser.parse_args()

@@ -4,14 +4,16 @@
         "parametros_lz"       : {
             "prefijo"            : "modelo_",
             "zona_procesamiento" : "proceso_enmascarado",
-            "in_oozie"           : "proceso_enmascarado.coes_historica"
+            "in_oozie"           : "proceso_enmascarado.coes_historica",
+            "nombre_tabla"       : "temporal_ads_package_gen"
         }    
     },
     "ExtractTransformLoad" : {
-        "tareas"                : [  
+        "tareas"                : [
             {"nombre" : "run_feature_pipeline"            , "kwargs" : []},
-            {"nombre" : "create_table"            , "kwargs" : []},                                
-            {"nombre" : "parquet_to_lz"            , "kwargs" : []}             
+            {"nombre" : "create_table"            , "kwargs" : []},
+            {"nombre" : "parquet_to_lz"            , "kwargs" : []}                                      
+                        
         ]
     }
 }

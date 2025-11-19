@@ -98,9 +98,38 @@ class ExtractTransformLoad(Step):
         self.executeTasks()
 
     def create_table(self):
-       #pendiente ver como hacemos conlos features cambiantes
-        self.executeFolder(self.getSQLPath() + \
-            type(self).__name__, self.obtener_params())
+       #pendiente ver como hacemos conlos features cambiantes       
+       params = self.getGlobalConfiguration()["parametros_lz"]
+       
+       #leer el parquet
+       parquet_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))),"feature_pipeline_output")
+       parquet = os.path.join(parquet_path, 'features.parquet')
+       df_parquet = pd.read_parquet(parquet)
+       #obtener los indices
+       columns_parquet = list(df_parquet.columns)
+                  
+       #escribir el sql
+       new_sql_path = os.path.join(os.path.dirname(__file__),"static/sql/ExtractTransformLoad","001_create_table.sql")
+       
+       #elimina el archivo si existe
+       if os.path.exists(new_sql_path):
+            os.remove(new_sql_path)
+       
+       query_file = open(new_sql_path,"w")
+             
+       query_file.write(f"DROP TABLE IF EXISTS {params.get('zona_procesamiento')}.{params.get('prefijo')}{params.get('nombre_tabla')} PURGE;\n")
+       query_file.write(f"CREATE TABLE IF NOT EXISTS {params.get('zona_procesamiento')}.{params.get('prefijo')}{params.get('nombre_tabla')} (\n")
+       
+       fields = [f"{column} STRING" for column in columns_parquet]
+       scheme_sql = ",\n".join(fields)
+       query_file.write(scheme_sql)    
+       
+       query_file.write("\n)\nSTORED AS PARQUET TBLPROPERTIES ('transactional'='false');")
+       query_file.close()          
+       
+       #ejecutar el sql
+       self.executeFolder(self.getSQLPath() + \
+        type(self).__name__, self.obtener_params())
     
     def run_feature_pipeline(self):
         
@@ -109,30 +138,31 @@ class ExtractTransformLoad(Step):
         DEFAULT_PIPELINE_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "vapi-modelo-predictivo-apis-dev", "pipeline.py")    
          
         # default config inside package
-        #configurar para coger del path un archivo config personalizado
+        params = self.obtener_params()
+        
         default_config = os.path.join(os.path.dirname(os.path.dirname(__file__)), "vapi-modelo-predictivo-apis-dev", "config.yaml")       
-        config_path = sys.argv[1] if len(sys.argv) > 1 else default_config
+        config_path = os.path.join(os.getcwd(), params.get('config_file')) if params.get('config_file') else default_config
         config_path = str(Path(config_path).resolve())
 
         if not os.path.exists(config_path):
             print(f"Config file not found: {config_path}")
             sys.exit(2)
-
+        
         spec = importlib.util.spec_from_file_location("pipeline", DEFAULT_PIPELINE_PATH)
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
         module.build_and_save_features(config_path)  
-    
-    #aqui se lee el parquet y se genera el query    
+        
+    #leer parquet y generar query    
     def parquet_to_lz(self):
     
         params = self.getGlobalConfiguration()["parametros_lz"]
                 
         parquet_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))),"feature_pipeline_output")
         parquet = os.path.join(parquet_path, 'features.parquet')
-        df_parquet = pd.read_parquet(parquet)
+        df_parquet = pd.read_parquet(parquet)        
         for index, row in df_parquet.iterrows():
             values = [str(value).replace("'", "") for value in row.values]  
             values = ", ".join(f"'{value}'" for value in values)  
-            insert_query = f"INSERT INTO {params.get('zona_procesamiento')}.{params.get('prefijo')}temporal_ads_package_gen VALUES ({values})"           
+            insert_query = f"INSERT INTO {params.get('zona_procesamiento')}.{params.get('prefijo')}{params.get('nombre_tabla')} VALUES ({values})"           
             self.helper.ejecutar_consulta(insert_query)
