@@ -8,9 +8,9 @@
         }    
     },
     "ExtractTransformLoad" : {
-        "tareas"                : [            
+        "tareas"                : [  
             {"nombre" : "create_table"            , "kwargs" : []},
-            {"nombre" : "run_feature_pipeline"            , "kwargs" : []},
+            {"nombre" : "run_feature_pipeline"            , "kwargs" : []},                    
             {"nombre" : "parquet_to_lz"            , "kwargs" : []}             
         ]
     }
