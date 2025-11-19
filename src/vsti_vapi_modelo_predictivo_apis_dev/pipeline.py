@@ -322,7 +322,7 @@ def _prepare_series_from_df(df_hist: pd.DataFrame, freq: str, api: str, fam: str
 def build_and_save_features(config_path: str):
     cfg = load_config(config_path)
     historic_path = cfg.get('historic_path')
-    out_dir = cfg.get('output_dir', 'feature_pipeline_output')
+    out_dir = cfg.get('output_dir', 'src/vsti_vapi_modelo_predictivo_apis_dev/static/feature_pipeline_output')
     features_cfg = cfg.get('features', {})
     freq = features_cfg.get('freq', '5min')
 

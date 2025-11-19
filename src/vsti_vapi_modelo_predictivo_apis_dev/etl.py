@@ -22,6 +22,8 @@ import os
 import sys
 import importlib.util
 import pandas as pd
+from typing import Dict, Tuple
+import yaml
 
 class ExtractTransformLoad(Step):
     """
@@ -95,14 +97,24 @@ class ExtractTransformLoad(Step):
         self.log.info(json.dumps(
             self.obtener_params(), \
             indent = 4, sort_keys = True))
-        self.executeTasks()
+        self.executeTasks()    
 
     def create_table(self):
-       #pendiente ver como hacemos conlos features cambiantes       
+        
+       def load_config(path: str) -> Dict:
+        with open(path, 'r', encoding='utf-8') as f:
+            return yaml.safe_load(f)
+            
        params = self.getGlobalConfiguration()["parametros_lz"]
        
+       default_config = os.path.join(os.path.dirname(__file__), "config.yaml")       
+       config_path = os.path.join(os.getcwd(), params.get('config_file')) if params.get('config_file') is True else default_config
+       
+       cfg = load_config(config_path)       
+       out_dir = cfg.get('output_dir', 'src/vsti_vapi_modelo_predictivo_apis_dev/static/feature_pipeline_output')
+       
        #leer el parquet
-       parquet_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))),"feature_pipeline_output")
+       parquet_path = os.path.join(os.getcwd(),out_dir)
        parquet = os.path.join(parquet_path, 'features.parquet')
        df_parquet = pd.read_parquet(parquet)
        #obtener los indices
@@ -133,15 +145,15 @@ class ExtractTransformLoad(Step):
     
     def run_feature_pipeline(self):
         
-        from pathlib import Path
+        from pathlib import Path     
         
-        DEFAULT_PIPELINE_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "vapi-modelo-predictivo-apis-dev", "pipeline.py")    
+        DEFAULT_PIPELINE_PATH = os.path.join(os.path.dirname(__file__), "pipeline.py")    
          
         # default config inside package
         params = self.obtener_params()
         
-        default_config = os.path.join(os.path.dirname(os.path.dirname(__file__)), "vapi-modelo-predictivo-apis-dev", "config.yaml")       
-        config_path = os.path.join(os.getcwd(), params.get('config_file')) if params.get('config_file') else default_config
+        default_config = os.path.join(os.path.dirname(__file__), "config.yaml")       
+        config_path = os.path.join(os.getcwd(), params.get('config_file')) if params.get('config_file') is True else default_config
         config_path = str(Path(config_path).resolve())
 
         if not os.path.exists(config_path):
@@ -155,10 +167,22 @@ class ExtractTransformLoad(Step):
         
     #leer parquet y generar query    
     def parquet_to_lz(self):
+        
+        def load_config(path: str) -> Dict:
+            with open(path, 'r', encoding='utf-8') as f:
+                return yaml.safe_load(f)
     
         params = self.getGlobalConfiguration()["parametros_lz"]
-                
-        parquet_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))),"feature_pipeline_output")
+        
+        default_config = os.path.join(os.path.dirname(__file__), "config.yaml")       
+        config_path = os.path.join(os.getcwd(), params.get('config_file')) if params.get('config_file') is True else default_config
+       
+        cfg = load_config(config_path)       
+        out_dir = cfg.get('output_dir', 'src/vsti_vapi_modelo_predictivo_apis_dev/static/feature_pipeline_output')
+       
+        #leer el parquet
+        parquet_path = os.path.join(os.getcwd(),out_dir)        
+               
         parquet = os.path.join(parquet_path, 'features.parquet')
         df_parquet = pd.read_parquet(parquet)        
         for index, row in df_parquet.iterrows():

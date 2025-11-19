@@ -1,8 +1,0 @@
-historic_path: "src/vapi-modelo-predictivo-apis-dev/static/excel/mes_marzo.xlsx"
-output_dir: "feature_pipeline_output"
-features:
-  freq: "5min"
-  lag_list: [1,2,3,6,12]
-  rolling_windows: [12,36,288]
-  ema_spans: [3,12,48]
-  prev_day_shift: 288
