@@ -10,7 +10,7 @@
     },
     "ExtractTransformLoad" : {
         "tareas"                : [
-            {"nombre" : "run_feature_pipeline"            , "kwargs" : []},
+           
             {"nombre" : "create_table"            , "kwargs" : []},
             {"nombre" : "parquet_to_lz"            , "kwargs" : []}                                      
                         

@@ -97,20 +97,20 @@ class ExtractTransformLoad(Step):
         self.log.info(json.dumps(
             self.obtener_params(), \
             indent = 4, sort_keys = True))
-        self.executeTasks()    
-
-    def create_table(self):
+        self.executeTasks()  
         
-       def load_config(path: str) -> Dict:
+    def load_config(self,path: str) -> Dict:
         with open(path, 'r', encoding='utf-8') as f:
-            return yaml.safe_load(f)
+            return yaml.safe_load(f)      
+
+    def create_table(self):       
             
        params = self.getGlobalConfiguration()["parametros_lz"]
        
        default_config = os.path.join(os.path.dirname(__file__), "config.yaml")       
        config_path = os.path.join(os.getcwd(), params.get('config_file')) if params.get('config_file') is True else default_config
        
-       cfg = load_config(config_path)       
+       cfg = self.load_config(config_path)       
        out_dir = cfg.get('output_dir', 'src/vsti_vapi_modelo_predictivo_apis_dev/static/feature_pipeline_output')
        
        #leer el parquet
@@ -166,18 +166,14 @@ class ExtractTransformLoad(Step):
         module.build_and_save_features(config_path)  
         
     #leer parquet y generar query    
-    def parquet_to_lz(self):
-        
-        def load_config(path: str) -> Dict:
-            with open(path, 'r', encoding='utf-8') as f:
-                return yaml.safe_load(f)
-    
+    def parquet_to_lz(self):        
+           
         params = self.getGlobalConfiguration()["parametros_lz"]
         
         default_config = os.path.join(os.path.dirname(__file__), "config.yaml")       
         config_path = os.path.join(os.getcwd(), params.get('config_file')) if params.get('config_file') is True else default_config
        
-        cfg = load_config(config_path)       
+        cfg = self.load_config(config_path)       
         out_dir = cfg.get('output_dir', 'src/vsti_vapi_modelo_predictivo_apis_dev/static/feature_pipeline_output')
        
         #leer el parquet
