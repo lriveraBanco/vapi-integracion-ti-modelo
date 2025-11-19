@@ -97,10 +97,8 @@ class ExtractTransformLoad(Step):
             indent = 4, sort_keys = True))
         self.executeTasks()
 
-    def ejecutar_modulos(self):
-        """
-        Función que ejecuta los módulos de información.
-        """
+    def create_table(self):
+       #pendiente ver como hacemos conlos features cambiantes
         self.executeFolder(self.getSQLPath() + \
             type(self).__name__, self.obtener_params())
     
@@ -129,10 +127,10 @@ class ExtractTransformLoad(Step):
     def parquet_to_lz(self):
         #corregir estopara que cogadesde el archivo de configuracion
         parquet_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))),"feature_pipeline_output")
-        df_parquet = pd.read_parquet(parquet_path)
+        parquet = os.path.join(parquet_path, 'features.parquet')
+        df_parquet = pd.read_parquet(parquet)
         for index, row in df_parquet.iterrows():
             values = [str(value).replace("'", "") for value in row.values]  
             values = ", ".join(f"'{value}'" for value in values)  
             insert_query = f"INSERT INTO proceso_enmascarado.modelo_temporal_ads_package_gen VALUES ({values})"
-            print(insert_query)
-            #self.helper.ejecutar_consulta(insert_query)
+            self.helper.ejecutar_consulta(insert_query)

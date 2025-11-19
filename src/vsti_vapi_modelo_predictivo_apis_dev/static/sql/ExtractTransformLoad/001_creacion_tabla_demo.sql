@@ -1,0 +1,127 @@
+-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+-- Equipo VSTI
+-----------------------------------------------------------------------------
+-- Fecha Creación: 20251029
+-- Última Fecha Modificación: 20251029
+-- Autores: lrivera, anpolo
+-- Últimos Autores: lrivera, anpolo
+-- Descripción: Depuración de las tablas temporales asociadas al paso
+--              o a toda la rutina según aplique.
+-----------------------------------------------------------------------------
+---------------------------------- INSUMOS ----------------------------------
+-- resultados.reporte_flujos_oozie
+--------------------------------- RESULTADOS --------------------------------
+-- proceso.temporal_ads_package_gen
+-----------------------------------------------------------------------------
+-------------------------------- Query Start --------------------------------
+
+-- ESTO ES SOLO UNA CONSULTA DE MUESTRA, SE DEBEN COLOCAR TODAS LAS CONSULTAS
+-- Y PARÁMETROS ASOCIADOS A LA RUTINA
+DROP TABLE IF EXISTS {zona_procesamiento}.{prefijo}temporal_ads_package_gen PURGE;
+CREATE TABLE IF NOT EXISTS {zona_procesamiento}.{prefijo}temporal_ads_package_gen  (
+    fecha_hora STRING,
+	lag_1 STRING,
+	lag_2 STRING,
+	lag_3 STRING,
+	lag_6 STRING,
+	lag_12 STRING,
+	diff_lag_1 STRING,
+	pct_chg_lag_1 STRING,
+	diff_lag_2 STRING,
+	pct_chg_lag_2 STRING,
+	diff_lag_3 STRING,
+	pct_chg_lag_3 STRING,
+	diff_lag_6 STRING,
+	pct_chg_lag_6 STRING,
+	diff_lag_12 STRING,
+	pct_chg_lag_12 STRING,
+	roll_sum_12 STRING,
+	roll_mean_12 STRING,
+	roll_median_12 STRING,
+	roll_min_12 STRING,
+	roll_max_12 STRING,
+    roll_std_12 STRING,
+	roll_q25_12 STRING,
+	roll_q75 STRING,
+	roll_slope_12 STRING,
+	roll_sum_36 STRING,
+	roll_mean_36 STRING,
+	roll_median_36 STRING,
+	roll_min_36 STRING,
+	roll_max_36 STRING,
+	roll_std_36 STRING,
+	roll_q25_36 STRING,
+	roll_q75_36 STRING,
+    roll_slope_36 STRING,
+    roll_sum_288 STRING,
+    roll_mean_288 STRING,
+    roll_median_288 STRING,
+    roll_min_288 STRING,
+    roll_max_288 STRING,
+    roll_std_288 STRING,
+    roll_q25_288 STRING, 
+    roll_q75_288 STRING,
+    roll_slope_288 STRING,
+	ema_3 STRING,
+	ema_12 STRING,
+	ema_48 STRING,
+	prev_day  STRING,
+    prev_week STRING,
+    hour STRING,
+	dow STRING,
+	hour_sin STRING,
+	hour_cos STRING,
+	dow_sin STRING,
+	dow_cos STRING,
+    is_weekend STRING,
+    month STRING,
+	day_of_month STRING,
+	day_of_year STRING,
+	jornada STRING,
+	quincena_early STRING,
+	quincena_late STRING,
+	holiday STRING,
+	llamados STRING,
+	prev_dia_com_sum STRING,
+	prev_dia_com_mean STRING,
+	prev_dia_com_median STRING,
+	prev_dia_com_max STRING,
+	prev_dia_com_min STRING,
+	prev_dia_com_std STRING,
+	prev_dia_com_q25 STRING,
+	prev_dia_com_q75 STRING,
+	prev_dow_com_sum STRING,
+	prev_dow_com_mean STRING,
+	prev_dow_com_median STRING,
+	prev_dow_com_max STRING,
+	prev_dow_com_min STRING,
+	prev_dow_com_std STRING,
+	prev_dow_com_q25 STRING,
+	prev_dow_com_q75 STRING,
+	prev_dow_interval_sum STRING,
+	prev_dow_interval_mean STRING,
+	prev_dow_interval_median STRING,
+	prev_dow_interval_max STRING,
+	prev_dow_interval_min STRING,
+	prev_dow_interval_std STRING,
+	prev_dow_interval_q25 STRING,
+	prev_dow_interval_q75 STRING,
+	prev_dow_day_sum STRING,
+    prev_dow_day_mean STRING,
+    prev_dow_day_median STRING,
+    prev_dow_day_max STRING,
+    prev_dow_day_min STRING,
+    prev_dow_day_std STRING,
+    prev_dow_day_q25 STRING,
+    prev_dow_day_q75 STRING,
+    api_name STRING,
+	familia STRING,
+	imputed_flag STRING,
+	family_roll_mean_12 STRING,
+	family_roll_mean_36 STRING,
+	family_roll_mean_288 STRING
+)
+STORED AS PARQUET
+TBLPROPERTIES ('transactional'='false');
+--------------------------------- Query End ---------------------------------
