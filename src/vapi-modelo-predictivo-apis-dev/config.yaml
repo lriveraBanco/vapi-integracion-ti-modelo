@@ -1,0 +1,13 @@
+# Use local sample files inside the package static folder for local runs
+#Cambio necesario ------------------------------------------------------------------------------------------------------------
+# Cambiar las rutas de los ficheros de entrada por consultas SQL en HUE mediante ODBC/Spark
+historic_path: "src/vapi-modelo-predictivo-apis-dev/static/excel/Metricas_5min_Semanal_Errores_248_252.csv"
+test_path: "src/vapi-modelo-predictivo-apis-dev/static/excel/mes_marzo.xlsx"
+#Cambio necesario ------------------------------------------------------------------------------------------------------------
+output_dir: "feature_pipeline_output"
+features:
+  freq: "5min"
+  lag_list: [1,2,3,6,12]
+  rolling_windows: [12,36,288]
+  ema_spans: [3,12,48]
+  prev_day_shift: 288

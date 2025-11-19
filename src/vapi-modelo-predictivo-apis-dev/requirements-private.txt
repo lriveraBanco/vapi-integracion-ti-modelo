@@ -1,0 +1,8 @@
+--index-url https://artifactory.apps.bancolombia.com/api/pypi/pypi-bancolombia/simple
+--trusted-host artifactory.apps.bancolombia.com
+
+impala-helper
+
+# Usage:
+# pip install -r src/requirements.txt        # public deps
+# pip install -r src/requirements-private.txt  # private deps (impala-helper)

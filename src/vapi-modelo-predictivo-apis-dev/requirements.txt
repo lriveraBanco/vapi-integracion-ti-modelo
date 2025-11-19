@@ -1,0 +1,24 @@
+# Paquetes por defecto: instalados desde PyPI público
+pyyaml>=5.4
+pandas==2.3.3
+numpy>=1.23
+pyarrow>=9.0.0
+holidays
+openpyxl
+
+# El paquete `impala-helper` se instala desde el índice privado de la
+# organización. Las opciones que aparecen a continuación afectan únicamente a
+# los paquetes que sigan en este archivo, por eso las colocamos justo antes
+# del nombre del paquete privado y restauramos el índice público después.
+#--index-url https://artifactory.apps.bancolombia.com/api/pypi/pypi-bancolombia/simple
+#--trusted-host artifactory.apps.bancolombia.com
+
+# El paquete `impala-helper` está comentado temporalmente para evitar errores
+# de instalación. Si necesita instalarlo más adelante, descomente estas
+# líneas y asegúrese de que pip tenga acceso al índice privado de la empresa.
+#--index-url https://artifactory.apps.bancolombia.com/api/pypi/pypi-bancolombia/simple
+#--trusted-host artifactory.apps.bancolombia.com
+#impala-helper
+
+# Restaurar índice público por defecto (opcional, no hay más paquetes abajo):
+#--index-url https://pypi.org/simple

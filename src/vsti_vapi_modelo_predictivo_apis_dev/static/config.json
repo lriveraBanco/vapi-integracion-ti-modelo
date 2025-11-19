@@ -1,0 +1,15 @@
+{
+    "global"               : {
+        "dsn"      : "Impala_Prod",
+        "parametros_lz"       : {
+            "prefijo"            : "modelo_",
+            "zona_procesamiento" : "proceso_enmascarado",
+            "in_oozie"           : "proceso_enmascarado.coes_historica"
+        }    
+    },
+    "ExtractTransformLoad" : {
+        "tareas"                : [            
+            {"nombre" : "run_feature_pipeline"            , "kwargs" : []}            
+        ]
+    }
+}

@@ -1,0 +1,4 @@
+include src/vsti_vapi_modelo_predictivo_apis_dev/static/*.json
+include src/vsti_vapi_modelo_predictivo_apis_dev/static/sql/ExtractTransformLoad/*.sql
+include versioneer.py
+include src/vsti_vapi_modelo_predictivo_apis_dev/_version.py

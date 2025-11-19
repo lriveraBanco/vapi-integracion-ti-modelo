@@ -1,0 +1,22 @@
+-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+-- Equipo VSTI
+-----------------------------------------------------------------------------
+-- Fecha Creación: 20251029
+-- Última Fecha Modificación: 20251029
+-- Autores: lrivera, anpolo
+-- Últimos Autores: lrivera, anpolo
+-- Descripción: Depuración de las tablas temporales asociadas al paso
+--              o a toda la rutina según aplique.
+-----------------------------------------------------------------------------
+---------------------------------- INSUMOS ----------------------------------
+-- proceso.temporal_ads_package_gen 
+--------------------------------- RESULTADOS --------------------------------
+-- 
+-----------------------------------------------------------------------------
+-------------------------------- Query Start --------------------------------
+
+-- ESTO ES SOLO UNA CONSULTA DE MUESTRA, SE DEBEN COLOCAR TODAS LAS TABLAS
+-- TEMPORALES QUE DEBAN SER DEPURADAS
+DROP TABLE IF EXISTS {zona_procesamiento}.{prefijo}temporal_ads_package_gen PURGE;
+--------------------------------- Query End ---------------------------------
