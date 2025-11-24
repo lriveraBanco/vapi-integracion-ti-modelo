@@ -3,8 +3,8 @@
         "dsn"      : "Impala_Prod",
         "parametros_lz"       : {
             "prefijo"            : "modelo_",
-            "zona_procesamiento" : "proceso_enmascarado",
-            "in_oozie"           : "proceso_enmascarado.coes_historica",
+            "zona_procesamiento" : "proceso_apis",
+            "in_oozie"           : "resultados_apis.maestro_analitica_apicv10",
             "nombre_tabla"       : "temporal_ads_package_gen"
         }    
     },
